@@ -1,0 +1,128 @@
+<html>
+<head>
+	 <title>RSA Encryption</title>
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	 <center>
+	 <h1>RSA Algorithm</h1>
+	 <h2>Implemented Using HTML & Javascript</h2>
+	 <hr>
+	 <table>
+		 <tr>
+			 <td>Enter First Prime Number:</td>
+			 <td><input type="number" id="p"></td>
+		 </tr>
+		 <tr>
+			 <td>Enter Second Prime Number:</td>
+			 <td><input type="number" id="q"></p></td>
+		 </tr>
+		 <tr>
+			 <td>Enter the Message:</td>
+			 <td><input type="number" id="msg"></p></td>
+		 </tr>
+		 <tr>
+		 	 <td></td><td><span id="prime1err"></span></td>
+		 </tr>
+		 <tr>
+		 	 <td></td><td><span id="prime2err"></span></td>
+		 </tr>
+		 <tr>
+		     <td>N:</td>
+		     <td><p id="nvalue"></p></td>
+		 </tr>
+		 <tr>
+			 <td>Phi:</td>
+			 <td><p id="phivalue"></p></td>
+		 </tr>
+		 <tr>
+			 <td>Encryption key:</td>
+			 <td><p id="ekey"></p></td>
+		 </tr>
+		 <tr>
+			 <td>Decryption key:</td>
+			 <td><p id="dkey"></p></td>
+		 </tr>
+		 <tr>
+			 <td>Cipher text:</td>
+			 <td><p id="ctext"></p></td>
+		 </tr>
+		 <tr>
+		 	 <td><button onclick="RSA();">Apply RSA</button></td>
+		 </tr>
+	 </table>
+	 </center>
+</body>
+<script type="text/javascript">
+function RSA()
+{
+	 var gcd, p, q, no, n, t, e, i, x;
+	 gcd = function (a, b) { return (!b) ? a : gcd(b, a % b); };
+	 p = document.getElementById('p').value;
+	 q = document.getElementById('q').value;
+	 no = document.getElementById('msg').value;
+	 var flag=1,flag1=1;
+	 for(var i=2;i<=p/2;i++)
+	 {
+		if(p%i==0)
+		{
+			flag=0;
+			break;
+		}		
+	 }
+	 if(flag==0)
+	 {
+				
+		document.getElementById("prime1err").innerHTML="First number is not a prime number";
+	 }
+	 else
+	 {
+		document.getElementById("prime1err").innerHTML=" ";
+		for(var i=2;i<=q/2;i++)
+		{
+			if(q%i==0)
+			{
+				flag1=0;
+				break;
+			}		
+		}
+		if(flag1==0)
+		{
+				
+			document.getElementById("prime2err").innerHTML="Second number is not a prime number";
+		}
+		else
+		{
+			document.getElementById("prime2err").innerHTML=" ";	
+			n = p * q;
+			t = (p - 1) * (q - 1);
+			for (e = 2; e < t; e++)
+			{
+			 	if (gcd(e, t) == 1) 
+			 	{
+			 		break;
+			 	}
+			}
+			for (i = 0; i < 10; i++) 
+			{
+			 	x = 1 + i * t
+			 	if (x % e == 0) 
+			 	{
+			 		d = x / e;
+			 		break;
+			 	}
+			}
+			ctt = Math.pow(no, e).toFixed(0);
+			ct = ctt % n;
+			dtt = Math.pow(ct, d).toFixed(0);
+			dt = dtt % n;
+			document.getElementById('nvalue').innerHTML = n;
+			document.getElementById('phivalue').innerHTML = t;
+			document.getElementById('ekey').innerHTML = e;
+			document.getElementById('dkey').innerHTML = d;
+			document.getElementById('ctext').innerHTML = ct;
+		}
+	}
+}
+</script>
+</html>
